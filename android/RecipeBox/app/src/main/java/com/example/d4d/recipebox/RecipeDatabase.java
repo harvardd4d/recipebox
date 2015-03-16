@@ -3,7 +3,7 @@ package com.example.d4d.recipebox;
 import java.util.List;
 
 /**
- * Interface describing how database access wil work.
+ * Interface describing how database access will work.
  * Implementations will essentially serve as a Java api wrapper for the database
  * Created by Richard on 3/16/2015.
  */
