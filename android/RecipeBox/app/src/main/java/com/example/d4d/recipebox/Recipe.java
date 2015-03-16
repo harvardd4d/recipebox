@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Class file that contains recipe information. Must be parcelable or serializable so that it can
+ * be sent from one activity to the next quickly.
  * Created by Richard on 3/16/2015.
  */
 public class Recipe implements Parcelable {
@@ -18,6 +20,8 @@ public class Recipe implements Parcelable {
     int season;
     List<String> ingredientlist;
     String instructions;
+    int id;
+
 
     /**
      * No args constructor, this will create a default "blank" recipe
@@ -30,10 +34,11 @@ public class Recipe implements Parcelable {
         season = -1;
         ingredientlist = new ArrayList<String>();
         instructions = "";
+        id = -1;
     }
 
     public Recipe(String name, String description, int cuisine, int mealtype,
-                  int season, List<String> ingredientlist, String instructions) {
+                  int season, List<String> ingredientlist, String instructions, int id) {
         this.name = name;
         this.description = description;
         this.cuisine = cuisine;
@@ -41,6 +46,7 @@ public class Recipe implements Parcelable {
         this.season = season;
         this.ingredientlist = ingredientlist;
         this.instructions = instructions;
+        this.id = id;
 
     }
 
@@ -56,6 +62,7 @@ public class Recipe implements Parcelable {
         this.season = p.readInt();
         p.readStringList(this.ingredientlist);
         this.instructions = p.readString();
+        this.id = p.readInt();
     }
 
     /**
@@ -175,6 +182,23 @@ public class Recipe implements Parcelable {
         this.instructions = instructions;
     }
 
+    /**
+     * Returns the ID of the Recipe, this uniquely identifies a Recipe in the database
+     * @return the UID of this Recipe
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Sets the UID of the Recipe, this uniquely identifies a Recipe in the database. This function
+     * should not be called very often, if at all.
+     * @param id
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -189,6 +213,7 @@ public class Recipe implements Parcelable {
         p.writeInt(season);
         p.writeStringList(ingredientlist);
         p.writeString(instructions);
+        p.writeInt(id);
     }
 
     public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
