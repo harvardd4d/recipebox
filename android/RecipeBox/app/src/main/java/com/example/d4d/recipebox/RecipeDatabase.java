@@ -7,14 +7,16 @@ import java.util.List;
  * Implementations will essentially serve as a Java api wrapper for the database
  * Created by Richard on 3/16/2015.
  */
-public interface RecipeDatabase {
+public abstract class RecipeDatabase {
+
+    public static final String LIST_DELIMITER = "";
 
     /**
      * This function, given a Recipes ID, returns the Recipe uniquely identified with said ID
      * @param recipeId the UID/Primary key of the recipe in the database
-     * @return the Recipe associated with the ID
+     * @return the Recipe associated with the ID, null if there is no such recipe
      */
-    public Recipe getRecipe(int recipeId);
+    public abstract Recipe getRecipe(int recipeId);
 
     /**
      * Returns a list of Recipes that satisfy all the following criteria
@@ -27,9 +29,9 @@ public interface RecipeDatabase {
      * @param cuisine cuisine we want to match with
      * @param mealtype mealtype we want to match with
      * @param season season we want to match with
-     * @return list of recipes that satisfy the criteria
+     * @return list of recipes that satisfy the criteria, empty list if no recipes satisfy
      */
-    public List<Recipe> getRecipesLoose(String name, int cuisine, int mealtype, int season);
+    public abstract List<Recipe> getRecipesLoose(String name, int cuisine, int mealtype, int season);
 
     /**
      * Returns a list of Recipes that satisfy all the following criteria
@@ -42,7 +44,7 @@ public interface RecipeDatabase {
      * @param cuisine cuisine we want to match with
      * @param mealtype mealtype we want to match with
      * @param season season we want to match with
-     * @return list of recipes that satisfy the criteria
+     * @return list of recipes that satisfy the criteria, empty list if no recipes satisfy
      */
-    public List<Recipe> getRecipesStrict(String name, int cuisine, int mealtype, int season);
+    public abstract List<Recipe> getRecipesStrict(String name, int cuisine, int mealtype, int season);
 }

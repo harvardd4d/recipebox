@@ -15,7 +15,12 @@ public class LocalRecipeDatabaseHelper extends SQLiteOpenHelper{
     private static String DB_NAME = "recipedatabase";
     private static int DB_VERSION = 1;
 
-    // SQL
+    // SQL commands
+    private static String CREATE_TABLES =
+            "CREATE TABLE recipes(name TEXT,description TEXT,cuisine INTEGER,mealtype INTEGER,season INTEGER,ingredientlist TEXT,instructions TEXT,id INTEGER PRIMARY KEY);";
+
+    private static String DELETE_TABLES =
+            "DROP TABLE IF EXISTS recipes;";
 
     public LocalRecipeDatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -23,7 +28,8 @@ public class LocalRecipeDatabaseHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase database) {
-        // TODO: make this create test database
+        database.execSQL(CREATE_TABLES);
+        // TODO insert test data
     }
 
     @Override
@@ -34,7 +40,9 @@ public class LocalRecipeDatabaseHelper extends SQLiteOpenHelper{
     @Override
     public void onUpgrade(SQLiteDatabase database, int oldversion, int newversion) {
         Log.i(DEBUG_TAG, "Upgrading from version" + oldversion + " to " + newversion + ". This will wipe all old data.");
-        // TODO do the upgrade, whatever that entails
+        database.execSQL(DELETE_TABLES);
+        database.execSQL(CREATE_TABLES);
+        // TODO make sure I don't need to do anything else; just look at this again plz
     }
 
     /**
