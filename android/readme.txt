@@ -8,3 +8,7 @@ At least do the build first app
 http://developer.android.com/training/basics/firstapp/index.html
 
 Any questions just ask, one of us should be able to figure out.
+
+----------------------------------------------------------------
+
+Recipe and RecipeDatabase done. 

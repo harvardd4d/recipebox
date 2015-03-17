@@ -1,7 +1,5 @@
-SERVAH WOK
+Server-side code:
 
-this guy will be the big brains, the thing that will hold the database
+This is being handled by Richard Zou.
 
-We need to get together and outline an interface
-
-server will do parsing work, possibly
+Currently using Go!
