@@ -200,6 +200,35 @@ public class Recipe implements Parcelable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if(!(o instanceof Recipe)) {
+            return false;
+        }
+        Recipe r = (Recipe)o;
+        return name.equals(r.getName()) &&
+                description.equals(r.getDescription()) &&
+                cuisine == r.getCuisine() &&
+                mealtype == r.getMealType() &&
+                season == r.getSeason() &&
+                ingredientlist.equals(r.getIngredientList()) &&
+                instructions.equals(r.getInstructions()) &&
+                id == r.getId();
+
+    }
+
+    @Override
+    public String toString() {
+        return "Name: " + name +
+                "\nDescription: " + description +
+                "\nCuisine: " + cuisine +
+                "\nMealtype: " + mealtype +
+                "\nSeason: " + season +
+                "\nIngredientList: " + ingredientlist.toString() +
+                "\nInstructions: " + instructions +
+                "\nID: " + id;
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }

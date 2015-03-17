@@ -18,12 +18,12 @@ public class LocalRecipeDatabase extends RecipeDatabase {
 
     private static final String tablename = "recipes";
 
-    private LocalRecipeDatabaseHelper dbhelper;
+    public static final boolean DEBUGMODE = true;
+
     private SQLiteDatabase database;
 
     public LocalRecipeDatabase(Context context) {
-        dbhelper = new LocalRecipeDatabaseHelper(context);
-        database = dbhelper.getReadableDatabase();
+        database = new LocalRecipeDatabaseHelper(context).getReadableDatabase();
     }
 
     @Override
@@ -72,6 +72,10 @@ public class LocalRecipeDatabase extends RecipeDatabase {
     @Override
     public List<Recipe> getRecipesLoose(String name, int cuisine, int mealtype, int season) {
         return getRecipesStrict("%"+name+"%", cuisine, mealtype, season);
+    }
+
+    public void close() {
+        database.close();
     }
 
     /**

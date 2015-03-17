@@ -16,10 +16,15 @@ public class LocalRecipeDatabaseHelper extends SQLiteOpenHelper{
     private static int DB_VERSION = 1;
 
     // SQL commands
-    private static String CREATE_TABLES =
+    private static final String CREATE_TABLES =
             "CREATE TABLE recipes(name TEXT,description TEXT,cuisine INTEGER,mealtype INTEGER,season INTEGER,ingredientlist TEXT,instructions TEXT,id INTEGER PRIMARY KEY);";
 
-    private static String DELETE_TABLES =
+    private static final String make_test_info =
+            "INSERT INTO recipes VALUES('toast', 'toast', 1, 1, 1, 'toast', 'toast', 1);" +
+            "INSERT INTO recipes VALUES('cereal', 'cereal', 2, 2, 2, 'cereal', 'cereal', 2);" +
+            "INSERT INTO recipes VALUES('toasted cereal', 'toasted cereal', 3, 3, 3, 'toasted cereal', 'toasted cereal', 3);";
+
+    private static final String DELETE_TABLES =
             "DROP TABLE IF EXISTS recipes;";
 
     public LocalRecipeDatabaseHelper(Context context) {
@@ -28,8 +33,13 @@ public class LocalRecipeDatabaseHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase database) {
+        // create tables as necessary
         database.execSQL(CREATE_TABLES);
-        // TODO insert test data
+
+        // if debug mode, populate with test data
+        if(LocalRecipeDatabase.DEBUGMODE) {
+            executeBatchSQL(database, make_test_info);
+        }
     }
 
     @Override
