@@ -1,5 +1,6 @@
 package com.example.d4d.recipebox;
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -21,6 +22,7 @@ public class Recipe implements Parcelable {
     List<String> ingredientlist;
     String instructions;
     int id;
+    Bitmap picture;
 
 
     /**
@@ -35,10 +37,11 @@ public class Recipe implements Parcelable {
         ingredientlist = new ArrayList<String>();
         instructions = "";
         id = -1;
+        picture = null;
     }
 
     public Recipe(String name, String description, int cuisine, int mealtype,
-                  int season, List<String> ingredientlist, String instructions, int id) {
+                  int season, List<String> ingredientlist, String instructions, int id, Bitmap picture) {
         this.name = name;
         this.description = description;
         this.cuisine = cuisine;
@@ -47,6 +50,7 @@ public class Recipe implements Parcelable {
         this.ingredientlist = ingredientlist;
         this.instructions = instructions;
         this.id = id;
+        this.picture = picture;
 
     }
 
@@ -55,6 +59,7 @@ public class Recipe implements Parcelable {
      * @param p parcel used to create the Recipe
      */
     public Recipe(Parcel p) {
+        ingredientlist = new ArrayList<String>();
         this.name = p.readString();
         this.description = p.readString();
         this.cuisine = p.readInt();
@@ -63,6 +68,7 @@ public class Recipe implements Parcelable {
         p.readStringList(this.ingredientlist);
         this.instructions = p.readString();
         this.id = p.readInt();
+        this.picture = p.readParcelable(Bitmap.class.getClassLoader());
     }
 
     /**
@@ -199,20 +205,39 @@ public class Recipe implements Parcelable {
         this.id = id;
     }
 
+    /**
+     * Gets the picture associated with this Recipe
+     * @return a Bitmap picture of this Recipe
+     */
+    public Bitmap getPicture() {
+        return picture;
+    }
+
+    /**
+     * Sets the picture associated with this Recipe
+     * @param picture new picture for this Recipe
+     */
+    public void setPicture(Bitmap picture) {
+        this.picture = picture;
+    }
+
     @Override
     public boolean equals(Object o) {
         if(!(o instanceof Recipe)) {
             return false;
         }
         Recipe r = (Recipe)o;
-        return name.equals(r.getName()) &&
+        return id == r.getId() &&
+                name.equals(r.getName()) &&
                 description.equals(r.getDescription()) &&
                 cuisine == r.getCuisine() &&
                 mealtype == r.getMealType() &&
                 season == r.getSeason() &&
                 ingredientlist.equals(r.getIngredientList()) &&
                 instructions.equals(r.getInstructions()) &&
-                id == r.getId();
+                (picture != null?
+                        (r.picture != null?picture.sameAs(r.picture):false):
+                        (r.picture != null?false:true));
 
     }
 
@@ -243,6 +268,7 @@ public class Recipe implements Parcelable {
         p.writeStringList(ingredientlist);
         p.writeString(instructions);
         p.writeInt(id);
+        p.writeParcelable(picture, flags);
     }
 
     public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {

@@ -17,12 +17,12 @@ public class LocalRecipeDatabaseHelper extends SQLiteOpenHelper{
 
     // SQL commands
     private static final String CREATE_TABLES =
-            "CREATE TABLE recipes(name TEXT,description TEXT,cuisine INTEGER,mealtype INTEGER,season INTEGER,ingredientlist TEXT,instructions TEXT,id INTEGER PRIMARY KEY);";
+            "CREATE TABLE recipes(name TEXT NOT NULL,description TEXT NOT NULL,cuisine INTEGER NOT NULL,mealtype INTEGER NOT NULL,season INTEGER NOT NULL,ingredientlist TEXT NOT NULL,instructions TEXT NOT NULL,id INTEGER PRIMARY KEY,picture BLOB);";
 
     private static final String make_test_info =
-            "INSERT INTO recipes VALUES('toast', 'toast', 1, 1, 1, 'toast', 'toast', 1);" +
-            "INSERT INTO recipes VALUES('cereal', 'cereal', 2, 2, 2, 'cereal', 'cereal', 2);" +
-            "INSERT INTO recipes VALUES('toasted cereal', 'toasted cereal', 3, 3, 3, 'toasted cereal', 'toasted cereal', 3);";
+            "INSERT INTO recipes VALUES('toast', 'toast', 1, 1, 1, 'toast', 'toast', 1, NULL);" +
+            "INSERT INTO recipes VALUES('cereal', 'cereal', 2, 2, 2, 'cereal', 'cereal', 2, NULL);" +
+            "INSERT INTO recipes VALUES('toasted cereal', 'toasted cereal', 3, 3, 3, 'toasted cereal', 'toasted cereal', 3, NULL);";
 
     private static final String DELETE_TABLES =
             "DROP TABLE IF EXISTS recipes;";

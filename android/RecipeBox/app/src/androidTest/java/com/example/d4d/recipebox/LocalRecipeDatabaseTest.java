@@ -14,9 +14,9 @@ import java.util.List;
 public class LocalRecipeDatabaseTest extends AndroidTestCase {
     private LocalRecipeDatabase database;
 
-    private static Recipe recipe1 = new Recipe("toast", "toast", 1, 1, 1, Collections.singletonList("toast"), "toast", 1);
-    private static Recipe recipe2 = new Recipe("cereal", "cereal", 2, 2, 2, Collections.singletonList("cereal"), "cereal", 2);
-    private static Recipe recipe3 = new Recipe("toasted cereal", "toasted cereal", 3, 3, 3, Collections.singletonList("toasted cereal"), "toasted cereal", 3);
+    private static Recipe recipe1 = new Recipe("toast", "toast", 1, 1, 1, Collections.singletonList("toast"), "toast", 1, null);
+    private static Recipe recipe2 = new Recipe("cereal", "cereal", 2, 2, 2, Collections.singletonList("cereal"), "cereal", 2, null);
+    private static Recipe recipe3 = new Recipe("toasted cereal", "toasted cereal", 3, 3, 3, Collections.singletonList("toasted cereal"), "toasted cereal", 3, null);
 
     @Override
     public void setUp() throws Exception{

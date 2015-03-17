@@ -3,6 +3,8 @@ package com.example.d4d.recipebox;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -85,6 +87,12 @@ public class LocalRecipeDatabase extends RecipeDatabase {
      * @return
      */
     private Recipe makeRecipe(Cursor c) {
+        Bitmap picture = null;
+        int pictcol = c.getColumnIndex("picture");
+        if(!c.isNull(pictcol)) {
+            byte[] buffer = c.getBlob(pictcol);
+            picture = BitmapFactory.decodeByteArray(buffer, 0, buffer.length);
+        }
         return new Recipe(c.getString(c.getColumnIndex("name")),
                 c.getString(c.getColumnIndex("description")),
                 c.getInt(c.getColumnIndex("cuisine")),
@@ -92,7 +100,8 @@ public class LocalRecipeDatabase extends RecipeDatabase {
                 c.getInt(c.getColumnIndex("season")),
                 Arrays.asList(c.getString(c.getColumnIndex("ingredientlist")).split(LIST_DELIMITER)),
                 c.getString(c.getColumnIndex("instructions")),
-                c.getInt(c.getColumnIndex("id")));
+                c.getInt(c.getColumnIndex("id")),
+                picture);
     }
 
 }
