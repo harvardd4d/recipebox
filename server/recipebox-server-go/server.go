@@ -3,6 +3,7 @@ package main
 import (
 	"container/list"
 	_ "database/sql"
+	"flag"
 	"fmt"
 	"github.com/codegangsta/negroni"
 	"github.com/gorilla/pat"
@@ -10,15 +11,18 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 	"net/http"
 	"strconv"
+	"strings"
 )
 
-// the main database
+// the main database.  TODO dependency injection
 var recipedb *RecipeDatabase
 
+// Handler for the home page
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "You've reached the recipebox hotline")
 }
 
+// Handler for viewing Recipes
 func RecipeHandler(w http.ResponseWriter, r *http.Request) {
 	id, _ := strconv.Atoi(r.URL.Query().Get(":id"))
 	recipe, err := recipedb.GetRecipe(id)
@@ -31,6 +35,7 @@ func RecipeHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "You asked for recipe %v!", recipe.Name)
 }
 
+// Handler for getting a JSON for a particular recipe
 func RecipeJSONHandler(w http.ResponseWriter, r *http.Request) {
 	id, _ := strconv.Atoi(r.URL.Query().Get(":id"))
 	recipe, err := recipedb.GetRecipe(id)
@@ -43,6 +48,7 @@ func RecipeJSONHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "%v", recipe.ToJSON())
 }
 
+// Handler for advanced JSON searches
 func RecipeAdvancedJSONHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	strict, err := strconv.Atoi(r.FormValue("strict"))
@@ -51,6 +57,7 @@ func RecipeAdvancedJSONHandler(w http.ResponseWriter, r *http.Request) {
 	season, _ := strconv.Atoi(r.FormValue("season"))
 	mealtype, _ := strconv.Atoi(r.FormValue("mealtype"))
 
+	// get all the recipes that match
 	var recipes *list.List
 	if strict == 0 {
 		recipes, err = recipedb.GetRecipesLoose(name, cuisine, mealtype, season)
@@ -58,13 +65,18 @@ func RecipeAdvancedJSONHandler(w http.ResponseWriter, r *http.Request) {
 		recipes, err = recipedb.GetRecipesStrict(name, cuisine, mealtype, season)
 	}
 
-	request := "" // TODO efficiency
+	// slice of jsons
+	jsons := make([]string, recipes.Len())
+	request := ""
 
 	if err == nil {
+		index := 0
 		for e := recipes.Front(); e != nil; e = e.Next() {
 			rec := e.Value.(*Recipe)
-			request += rec.ToJSON() + "\n"
+			jsons[index] = rec.ToJSON()
+			index++
 		}
+		request = strings.Join(jsons, "\n")
 	} else {
 		request = err.Error()
 	}
@@ -72,6 +84,11 @@ func RecipeAdvancedJSONHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	// Get command line arguments
+	portPtr := flag.String("port", 8080, "the server port number")
+	flag.Parse()
+	portStr := fmt.Sprintf(":%v", *portPtr)
+
 	// Read database, check to see if we can open
 	db_file := "testdb.sqlite"
 	db, _ := sqlx.Open("sqlite3", db_file)
@@ -91,5 +108,5 @@ func main() {
 	// Setting up middleware (server, logging layer)
 	n := negroni.Classic()
 	n.UseHandler(r)
-	n.Run(":8080")
+	n.Run(portStr)
 }
