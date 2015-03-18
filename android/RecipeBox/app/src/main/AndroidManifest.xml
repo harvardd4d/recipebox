@@ -20,6 +20,14 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_main" >
         </activity>
+        <activity
+            android:name=".DisplayRecipeListActivity"
+            android:label="@string/title_activity_display_recipe_list" >
+        </activity>
+        <activity
+            android:name=".DisplayRecipeActivity"
+            android:label="@string/title_activity_display_recipe" >
+        </activity>
     </application>
 
 </manifest>

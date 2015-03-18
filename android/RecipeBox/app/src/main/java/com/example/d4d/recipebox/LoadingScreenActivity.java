@@ -34,6 +34,7 @@ public class LoadingScreenActivity extends Activity {
             public void run() {
                 try {
                     super.run();
+                    // load stuff
                     while (wait < welcomeScreenDisplay) {
                         sleep(100);
                         wait += 100;
