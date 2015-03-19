@@ -1,9 +1,14 @@
 package com.example.d4d.recipebox;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -36,4 +41,16 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void onTestButtonClick(View view) {
+        // do your testy thingy
+        Intent launchIntent = new Intent(MainActivity.this, DisplayRecipeListActivity.class);
+        ArrayList<Recipe> arr = new ArrayList<Recipe>();
+        arr.add(new Recipe("toast", "toast", 1, 1, 1, Collections.singletonList("toast"), "toast", 1, null));
+        arr.add(new Recipe("cereal", "cereal", 2, 2, 2, Collections.singletonList("cereal"), "cereal", 2, null));
+        launchIntent.putParcelableArrayListExtra(DisplayRecipeListActivity.RECIPELIST_INTENT_KEY, arr);
+        startActivity(launchIntent);
+
+    }
+
 }
