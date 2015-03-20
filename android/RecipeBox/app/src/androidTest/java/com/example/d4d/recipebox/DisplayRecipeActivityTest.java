@@ -2,16 +2,12 @@ package com.example.d4d.recipebox;
 
 import android.app.Instrumentation;
 import android.content.Intent;
-import android.test.ActivityInstrumentationTestCase2;
-import android.test.TouchUtils;
+import android.test.ActivityUnitTestCase;
 import android.test.ViewAsserts;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.d4d.recipebox.R;
-import com.example.d4d.recipebox.DisplayRecipeActivity;
-import com.example.d4d.recipebox.DisplayRecipeHelper;
 
 import java.util.Collections;
 
@@ -19,7 +15,7 @@ import java.util.Collections;
  * Created by Mark on 3/19/2015.
  */
 public class DisplayRecipeActivityTest extends
-        ActivityInstrumentationTestCase2<DisplayRecipeActivity> {
+        ActivityUnitTestCase<DisplayRecipeActivity> {
 
     private DisplayRecipeActivity activity;
 
@@ -39,9 +35,7 @@ public class DisplayRecipeActivityTest extends
         // initialize a dummy intent with an extra Recipe passed in
         Intent testIntent = new Intent(this.getActivity(), DisplayRecipeActivity.class);
         testIntent.putExtra(DisplayRecipeActivity.RECIPE_INTENT_KEY, recipe1);
-        setActivityIntent(testIntent);
 
-        setActivityInitialTouchMode(false);
         activity = getActivity();
     }
 
