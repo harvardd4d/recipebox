@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.test.ActivityUnitTestCase;
 import android.test.ViewAsserts;
 import android.view.ContextThemeWrapper;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -25,9 +26,19 @@ public class DisplayRecipeActivityTest extends
         super(DisplayRecipeActivity.class);
     }
 
-    private static Recipe recipe1 = new Recipe("toast", "toast", 1, 1, 1, Collections.singletonList("toast"), "toast", 1, null);
-//    private static Recipe recipe2 = new Recipe("cereal", "cereal", 2, 2, 2, Collections.singletonList("cereal"), "cereal", 2, null);
-//    private static Recipe recipe3 = new Recipe("toasted cereal", "toasted cereal", 3, 3, 3, Collections.singletonList("toasted cereal"), "toasted cereal", 3, null);
+    private static Recipe recipe1 = new Recipe("toast", "toast", 1, 1, 1,Collections.singletonList("toast"), "toast", 1, null);
+
+    private View screen;
+
+    // list of Views to be tested
+    private ImageView recipepicture;
+    private TextView recipename;
+    private TextView recipeinstructions;
+    private TextView recipedescription;
+    private ListView recipeingredientlist;
+    private TextView recipecuisine;
+    private TextView recipemealtype;
+    private TextView recipeseason;
 
     @Override
     protected void setUp() throws Exception {
@@ -44,33 +55,52 @@ public class DisplayRecipeActivityTest extends
         // precondition testing
         startActivity(testIntent, null, null);
         activity = (DisplayRecipeActivity)getActivity();
+        screen = activity.getWindow().getDecorView();
+
+        // setting Views to be tested
+        recipepicture = (ImageView) activity.findViewById(R.id.recipePicture);
+        recipename = (TextView) activity.findViewById(R.id.recipeName);
+        recipeinstructions = (TextView) activity.findViewById(R.id.recipeInstructions);
+        recipedescription = (TextView) activity.findViewById(R.id.recipeDescription);
+        recipeingredientlist = (ListView) activity.findViewById(R.id.recipeIngredientList);
+        recipecuisine = (TextView) activity.findViewById(R.id.recipeCuisine);
+        recipemealtype = (TextView) activity.findViewById(R.id.recipeMealType);
+        recipeseason = (TextView) activity.findViewById(R.id.recipeSeason);
+
         assertNotNull("Activity not started", activity);
     }
 
+    // test that the Views are shown on-screen
     public void testElementViewsShown() throws Exception {
 
-        // list of Views to be tested
-        ImageView recipepicture = (ImageView) activity.findViewById(R.id.recipePicture);
-        TextView recipename = (TextView) activity.findViewById(R.id.recipeName);
-        TextView recipeinstructions = (TextView) activity.findViewById(R.id.recipeInstructions);
-        TextView recipedescription = (TextView) activity.findViewById(R.id.recipeDescription);
-        ListView recipeingredientlist = (ListView) activity.findViewById(R.id.recipeIngredientList);
-        TextView recipecuisine = (TextView) activity.findViewById(R.id.recipeCuisine);
-        TextView recipemealtype = (TextView) activity.findViewById(R.id.recipeMealType);
-        TextView recipeseason = (TextView) activity.findViewById(R.id.recipeSeason);
-
         // check that the Views are on the screen
-        ViewAsserts.assertOnScreen(activity.getWindow().getDecorView(), recipepicture);
-        ViewAsserts.assertOnScreen(activity.getWindow().getDecorView(), recipename);
-        ViewAsserts.assertOnScreen(activity.getWindow().getDecorView(), recipeinstructions);
-        ViewAsserts.assertOnScreen(activity.getWindow().getDecorView(), recipedescription);
-        ViewAsserts.assertOnScreen(activity.getWindow().getDecorView(), recipeingredientlist);
-        ViewAsserts.assertOnScreen(activity.getWindow().getDecorView(), recipecuisine);
-        ViewAsserts.assertOnScreen(activity.getWindow().getDecorView(), recipemealtype);
-        ViewAsserts.assertOnScreen(activity.getWindow().getDecorView(), recipeseason);
+        ViewAsserts.assertOnScreen(screen, recipepicture);
+        ViewAsserts.assertOnScreen(screen, recipename);
+        ViewAsserts.assertOnScreen(screen, recipeinstructions);
+        ViewAsserts.assertOnScreen(screen, recipedescription);
+        ViewAsserts.assertOnScreen(screen, recipeingredientlist);
+        ViewAsserts.assertOnScreen(screen, recipecuisine);
+        ViewAsserts.assertOnScreen(screen, recipemealtype);
+        ViewAsserts.assertOnScreen(screen, recipeseason);
+    }
+
+    // test that the Views populated with the recipe elements correctly
+    public void testRecipeElementsShown() throws Exception {
 
         // validate the text in the TextViews
-        assertEquals("Text incorrect", "toast", recipename.getText().toString());
+        // TODO: figure out how to test ImageView
+//        assertTrue("Picture is not null", recipepicture.getDrawable() == null);
+
+        assertEquals("Name incorrect", "toast", recipename.getText().toString());
+        assertEquals("Instructions incorrect", "toast", recipeinstructions.getText().toString());
+        assertEquals("Description incorrect", "toast", recipedescription.getText().toString());
+
+        // TODO: figure out how to test ListView (how to do something with adapter?)
+//        assertEquals("Ingredient List incorrect", "toast", recipeingredientlist.getAdapter().toString());
+
+        assertEquals("Cuisine incorrect", "1", recipecuisine.getText().toString());
+        assertEquals("Meal Type incorrect", "1", recipemealtype.getText().toString());
+        assertEquals("Season incorrect", "1", recipeseason.getText().toString());
     }
 
     public void tearDown() throws Exception {
