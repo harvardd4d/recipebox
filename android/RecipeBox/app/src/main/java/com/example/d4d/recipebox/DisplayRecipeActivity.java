@@ -48,7 +48,7 @@ public class DisplayRecipeActivity extends ActionBarActivity {
 
         // sets the values of modifiable views to reflect those of the provided recipe
         recipepicture.setImageBitmap(recipe.getPicture());
-        recipename.setText(recipe.getCuisine());
+        recipename.setText(recipe.getName());
         recipeinstructions.setText(recipe.getInstructions());
         recipedescription.setText(recipe.getDescription());
 

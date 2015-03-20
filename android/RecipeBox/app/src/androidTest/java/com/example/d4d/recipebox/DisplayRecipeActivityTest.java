@@ -4,6 +4,7 @@ import android.app.Instrumentation;
 import android.content.Intent;
 import android.test.ActivityUnitTestCase;
 import android.test.ViewAsserts;
+import android.view.ContextThemeWrapper;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,54 +33,47 @@ public class DisplayRecipeActivityTest extends
     protected void setUp() throws Exception {
         super.setUp();
 
+        // otherwise compatibility theming would break unit tests *facepalm*
+        ContextThemeWrapper context = new ContextThemeWrapper(getInstrumentation().getTargetContext(), R.style.AppTheme);
+        setActivityContext(context);
+
         // initialize a dummy intent with an extra Recipe passed in
-        Intent testIntent = new Intent(this.getActivity(), DisplayRecipeActivity.class);
+        Intent testIntent = new Intent(getInstrumentation().getTargetContext(), DisplayRecipeActivity.class);
         testIntent.putExtra(DisplayRecipeActivity.RECIPE_INTENT_KEY, recipe1);
 
-        activity = getActivity();
+        // precondition testing
+        startActivity(testIntent, null, null);
+        activity = (DisplayRecipeActivity)getActivity();
+        assertNotNull("Activity not started", activity);
     }
 
-    public void testStartSecondActivity() throws Exception {
+    public void testElementViewsShown() throws Exception {
 
-        // monitor to check for activity
-        Instrumentation.ActivityMonitor monitor =
-                getInstrumentation().addMonitor(DisplayRecipeActivity.class.getName(), null, false);
-
-        // wait 2 seconds for the start of the activity
-        DisplayRecipeActivity startedActivity = (DisplayRecipeActivity) monitor
-                .waitForActivityWithTimeout(2000);
-        assertNotNull(startedActivity);
-
-        // search for modifiable Views
-        ImageView recipepicture = (ImageView) startedActivity.findViewById(R.id.recipePicture);
-        TextView recipename = (TextView) startedActivity.findViewById(R.id.recipeName);
-        TextView recipeinstructions = (TextView) startedActivity.findViewById(R.id.recipeInstructions);
-        TextView recipedescription = (TextView) startedActivity.findViewById(R.id.recipeDescription);
-        ListView recipeingredientlist = (ListView) startedActivity.findViewById(R.id.recipeIngredientList);
-        TextView recipecuisine = (TextView) startedActivity.findViewById(R.id.recipeCuisine);
-        TextView recipemealtype = (TextView) startedActivity.findViewById(R.id.recipeMealType);
-        TextView recipeseason = (TextView) startedActivity.findViewById(R.id.recipeSeason);
-
+        // list of Views to be tested
+        ImageView recipepicture = (ImageView) activity.findViewById(R.id.recipePicture);
+        TextView recipename = (TextView) activity.findViewById(R.id.recipeName);
+        TextView recipeinstructions = (TextView) activity.findViewById(R.id.recipeInstructions);
+        TextView recipedescription = (TextView) activity.findViewById(R.id.recipeDescription);
+        ListView recipeingredientlist = (ListView) activity.findViewById(R.id.recipeIngredientList);
+        TextView recipecuisine = (TextView) activity.findViewById(R.id.recipeCuisine);
+        TextView recipemealtype = (TextView) activity.findViewById(R.id.recipeMealType);
+        TextView recipeseason = (TextView) activity.findViewById(R.id.recipeSeason);
 
         // check that the Views are on the screen
-        ViewAsserts.assertOnScreen(startedActivity.getWindow().getDecorView(),
-                recipepicture);
-        ViewAsserts.assertOnScreen(startedActivity.getWindow().getDecorView(),
-                recipename);
-        ViewAsserts.assertOnScreen(startedActivity.getWindow().getDecorView(),
-                recipeinstructions);
-        ViewAsserts.assertOnScreen(startedActivity.getWindow().getDecorView(),
-                recipedescription);
-        ViewAsserts.assertOnScreen(startedActivity.getWindow().getDecorView(),
-                recipeingredientlist);
-        ViewAsserts.assertOnScreen(startedActivity.getWindow().getDecorView(),
-                recipecuisine);
-        ViewAsserts.assertOnScreen(startedActivity.getWindow().getDecorView(),
-                recipemealtype);
-        ViewAsserts.assertOnScreen(startedActivity.getWindow().getDecorView(),
-                recipeseason);
+        ViewAsserts.assertOnScreen(activity.getWindow().getDecorView(), recipepicture);
+        ViewAsserts.assertOnScreen(activity.getWindow().getDecorView(), recipename);
+        ViewAsserts.assertOnScreen(activity.getWindow().getDecorView(), recipeinstructions);
+        ViewAsserts.assertOnScreen(activity.getWindow().getDecorView(), recipedescription);
+        ViewAsserts.assertOnScreen(activity.getWindow().getDecorView(), recipeingredientlist);
+        ViewAsserts.assertOnScreen(activity.getWindow().getDecorView(), recipecuisine);
+        ViewAsserts.assertOnScreen(activity.getWindow().getDecorView(), recipemealtype);
+        ViewAsserts.assertOnScreen(activity.getWindow().getDecorView(), recipeseason);
 
         // validate the text in the TextViews
         assertEquals("Text incorrect", "toast", recipename.getText().toString());
+    }
+
+    public void tearDown() throws Exception {
+        super.tearDown();
     }
 }
