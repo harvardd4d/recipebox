@@ -6,7 +6,64 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.example.d4d.recipebox.DisplayRecipeActivity">
 
+<<<<<<< HEAD
     <TextView android:text="Ayyyy lmao" android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+=======
+    <ImageView android:id="@+id/recipePicture"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView android:id="@+id/recipeName"
+        android:text="Recipe Name"
+
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/recipePicture" />
+
+    <ListView android:id="@+id/recipeIngredientList"
+        android:text="Recipe Ingredient List"
+
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/recipePicture" />
+
+    <TextView android:id="@+id/recipeInstructions"
+        android:text="Recipe Instructions"
+
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/recipeIngredientList" />
+
+    <TextView android:id="@+id/recipeDescription"
+        android:text="Recipe Description"
+
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/recipeInstructions" />
+
+    <TextView android:id="@+id/recipeCuisine"
+        android:text="Recipe Cuisine"
+
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView android:id="@+id/recipeMealType"
+        android:text="Recipe Meal Type"
+
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView android:id="@+id/recipeSeason"
+        android:text="Recipe Season"
+
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+
+
+
+
+>>>>>>> origin/mark-ting-recipe-display
 </RelativeLayout>

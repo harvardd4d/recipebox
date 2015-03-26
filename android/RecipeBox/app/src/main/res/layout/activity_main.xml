@@ -7,6 +7,7 @@
     tools:context="com.example.d4d.recipebox.MainActivity">
 
     <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
+<<<<<<< HEAD
         android:layout_height="wrap_content"
         android:id="@+id/textView" />
 
@@ -19,5 +20,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="44dp"
         android:onClick="onTestButtonClick" />
+=======
+        android:layout_height="wrap_content" />
+>>>>>>> origin/mark-ting-recipe-display
 
 </RelativeLayout>

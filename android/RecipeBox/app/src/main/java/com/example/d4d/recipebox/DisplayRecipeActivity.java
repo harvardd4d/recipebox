@@ -5,7 +5,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
 public class DisplayRecipeActivity extends ActionBarActivity {
 
@@ -27,6 +31,35 @@ public class DisplayRecipeActivity extends ActionBarActivity {
             return;
         }
 
+        // enumerates all modifiable views
+        ImageView recipepicture = (ImageView) findViewById(R.id.recipePicture);
+        TextView recipename = (TextView) findViewById(R.id.recipeName);
+        TextView recipeinstructions = (TextView) findViewById(R.id.recipeInstructions);
+        TextView recipedescription = (TextView) findViewById(R.id.recipeDescription);
+        ListView recipeingredientlist = (ListView) findViewById(R.id.recipeIngredientList);
+        TextView recipecuisine = (TextView) findViewById(R.id.recipeCuisine);
+        TextView recipemealtype = (TextView) findViewById(R.id.recipeMealType);
+        TextView recipeseason = (TextView) findViewById(R.id.recipeSeason);
+
+        // creates adapter for ingredient list
+        ArrayAdapter<String> ingredientlistadapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1, recipe.getIngredientList());
+
+        // sets the values of modifiable views to reflect those of the provided recipe
+        recipepicture.setImageBitmap(recipe.getPicture());
+        recipename.setText(recipe.getName());
+        recipeinstructions.setText(recipe.getInstructions());
+        recipedescription.setText(recipe.getDescription());
+
+        // sets the adapter for recipe ingredient ListView
+        recipeingredientlist.setAdapter(ingredientlistadapter);
+
+        // does the same thing as above but...
+        // TODO: using String.valueOf(int val) currently
+        // TODO: convert these int values to String values! (server lookup?)
+        recipecuisine.setText(String.valueOf(recipe.getCuisine()));
+        recipemealtype.setText(String.valueOf(recipe.getMealType()));
+        recipeseason.setText(String.valueOf(recipe.getSeason()));
     }
 
 
