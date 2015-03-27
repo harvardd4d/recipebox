@@ -98,7 +98,7 @@ public class LocalRecipeDatabase extends RecipeDatabase {
                 c.getInt(c.getColumnIndex("cuisine")),
                 c.getInt(c.getColumnIndex("mealtype")),
                 c.getInt(c.getColumnIndex("season")),
-                Arrays.asList(c.getString(c.getColumnIndex("ingredientlist")).split(LIST_DELIMITER)),
+                Arrays.asList(c.getString(c.getColumnIndex("ingredientlist")).split(INGREDIENT_LIST_DELIMITER)),
                 c.getString(c.getColumnIndex("instructions")),
                 c.getInt(c.getColumnIndex("id")),
                 picture);

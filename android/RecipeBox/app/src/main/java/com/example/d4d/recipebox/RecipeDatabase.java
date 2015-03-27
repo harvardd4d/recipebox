@@ -9,7 +9,7 @@ import java.util.List;
  */
 public abstract class RecipeDatabase {
 
-    public static final String LIST_DELIMITER = "KAPPA";
+    public static final String INGREDIENT_LIST_DELIMITER = "KAPPAKAPPAHUEHUEHUEE";
 
     /**
      * This function, given a Recipes ID, returns the Recipe uniquely identified with said ID
