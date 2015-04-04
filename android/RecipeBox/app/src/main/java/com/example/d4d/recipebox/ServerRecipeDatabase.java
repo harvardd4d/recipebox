@@ -52,10 +52,13 @@ public class ServerRecipeDatabase extends RecipeDatabase{
             if(httpresponse.getStatusLine().getStatusCode() == 200) {
                 String line;
                 BufferedReader rd = new BufferedReader(new InputStreamReader(httpresponse.getEntity().getContent()));
-                while ((line = rd.readLine()) != null) {
-                    result += line + "\n"; // TODO why am i adding a new line?
+                try {
+                    while ((line = rd.readLine()) != null) {
+                        result += line + "\n"; // TODO why am i adding a new line?
+                    }
+                } finally {
+                    rd.close();
                 }
-                rd.close();
                 return jsonToRecipe(new JSONObject(result));
             } else {
                 // Server didn't respond properly
@@ -100,8 +103,12 @@ public class ServerRecipeDatabase extends RecipeDatabase{
                     new BufferedReader(new InputStreamReader(entity.getContent()), 65728);
             String line = null;
 
-            while ((line = reader.readLine()) != null) {
-                res.add(jsonToRecipe(new JSONObject(line)));
+            try {
+                while ((line = reader.readLine()) != null) {
+                    res.add(jsonToRecipe(new JSONObject(line)));
+                }
+            } finally {
+                reader.close();
             }
 
             return res;
@@ -139,5 +146,9 @@ public class ServerRecipeDatabase extends RecipeDatabase{
             Log.e(DEBUG_TAG, "Error parsing JSON to Recipe: " + recipejson.toString());
             return null;
         }
+    }
+
+    public void close() {
+        // TODO i guess we don't close the httpclient?
     }
 }

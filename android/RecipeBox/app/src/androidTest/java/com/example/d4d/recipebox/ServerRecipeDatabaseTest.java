@@ -51,4 +51,11 @@ public class ServerRecipeDatabaseTest extends AndroidTestCase {
 
         assertNull("Found ham fried bacon. Why?", db.getRecipesStrict("Ham fried bacon", 1, 2, 3));
     }
+
+    // TODO get somebody to write more tests
+
+    public void tearDown() throws Exception {
+        db.close();
+        super.tearDown();
+    }
 }

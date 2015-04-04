@@ -77,6 +77,8 @@ public class LocalRecipeDatabaseTest extends AndroidTestCase {
                 database.getRecipesLoose("cereal", -1, -1, -1).equals(xceralx));
     }
 
+    // TODO get somebody to write more tests
+
     public void tearDown() throws Exception {
         database.close();
         super.tearDown();
