@@ -5,17 +5,25 @@ import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.util.Log;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -25,15 +33,21 @@ public class ServerRecipeDatabase extends RecipeDatabase{
     public static final String DEBUG_TAG = "ServerRecipeDatabase";
     private static final String USER_AGENT = "SPACEDUCK";
     private static final String SERVER_URL = "http://pc-recipebox.herokuapp.com/"; // TODO move this somewhere else
+    private static final String ENCODING = "UTF-8";
 
     private static final String tablename = "recipes";
+
+    private HttpClient client;
+
+    public ServerRecipeDatabase() {
+        client = new DefaultHttpClient();
+    }
 
     @Override
     public Recipe getRecipe(int recipeId) {
         String result = "";
         try {
-            HttpClient client = new DefaultHttpClient();
-            HttpGet request = new HttpGet(SERVER_URL + "recipes/" + recipeId + "/json");
+            HttpGet request = new HttpGet(SERVER_URL + "recipes/" + recipeId + "/json/");
             HttpResponse httpresponse = client.execute(request);
             if(httpresponse.getStatusLine().getStatusCode() == 200) {
                 String line;
@@ -45,6 +59,7 @@ public class ServerRecipeDatabase extends RecipeDatabase{
                 return jsonToRecipe(new JSONObject(result));
             } else {
                 // Server didn't respond properly
+                Log.e(DEBUG_TAG, "Server at " + SERVER_URL + " didn't respond with 200 OK");
                 return null;
             }
         } catch (IOException ex) {
@@ -67,8 +82,40 @@ public class ServerRecipeDatabase extends RecipeDatabase{
     }
 
     private List<Recipe> getRecipes(String name, int cuisine, int mealtype, int season, int strict) {
-        // TODO wait on server guys to do stuff
-        return null;
+        try {
+            HttpPost request = new HttpPost(SERVER_URL + "recipes/jsonsearch/");
+            List<NameValuePair> params = new ArrayList<NameValuePair>(5);
+            params.add(new BasicNameValuePair("strict", ""+strict));
+            params.add(new BasicNameValuePair("name", name));
+            params.add(new BasicNameValuePair("season", ""+season));
+            params.add(new BasicNameValuePair("mealtype", ""+mealtype));
+            params.add(new BasicNameValuePair("cuisine", ""+cuisine));
+            request.setEntity(new UrlEncodedFormEntity(params, ENCODING));
+
+            HttpResponse response = client.execute(request);
+            HttpEntity entity = response.getEntity();
+
+            List<Recipe> res = new ArrayList<Recipe>();
+            BufferedReader reader =
+                    new BufferedReader(new InputStreamReader(entity.getContent()), 65728);
+            String line = null;
+
+            while ((line = reader.readLine()) != null) {
+                res.add(jsonToRecipe(new JSONObject(line)));
+            }
+
+            return res;
+        } catch (UnsupportedEncodingException ex) {
+            // error, return empty list
+            Log.e(DEBUG_TAG, "Unsupported encoding " + ENCODING);
+            return null;
+        } catch (IOException ex) {
+            Log.e(DEBUG_TAG, "Network error", ex);
+            return null;
+        } catch(JSONException ex) {
+            Log.e(DEBUG_TAG, "Server sent invalid JSON", ex);
+            return null;
+        }
     }
 
     public Recipe jsonToRecipe(JSONObject recipejson) {
