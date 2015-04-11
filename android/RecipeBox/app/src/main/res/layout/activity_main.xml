@@ -13,11 +13,30 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Test Button"
+        android:text="Get All"
         android:id="@+id/test_button"
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="44dp"
         android:onClick="onTestButtonClick" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get Toast Loose"
+        android:id="@+id/button"
+        android:layout_below="@+id/test_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="44dp"
+        android:onClick="TOOOASTTT" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get Toast Strict"
+        android:id="@+id/button2"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="TOOOASTTTT" />
 
 </RelativeLayout>

@@ -75,16 +75,16 @@ public class ServerRecipeDatabase extends RecipeDatabase{
     }
 
     @Override
-    public List<Recipe> getRecipesLoose(String name, int cuisine, int mealtype, int season) {
+    public ArrayList<Recipe> getRecipesLoose(String name, int cuisine, int mealtype, int season) {
         return getRecipes(name, cuisine, mealtype, season, 0);
     }
 
     @Override
-    public List<Recipe> getRecipesStrict(String name, int cuisine, int mealtype, int season) {
+    public ArrayList<Recipe> getRecipesStrict(String name, int cuisine, int mealtype, int season) {
         return getRecipes(name, cuisine, mealtype, season, 1);
     }
 
-    private List<Recipe> getRecipes(String name, int cuisine, int mealtype, int season, int strict) {
+    private ArrayList<Recipe> getRecipes(String name, int cuisine, int mealtype, int season, int strict) {
         try {
             HttpPost request = new HttpPost(SERVER_URL + "recipes/jsonsearch/");
             List<NameValuePair> params = new ArrayList<NameValuePair>(5);
@@ -98,7 +98,7 @@ public class ServerRecipeDatabase extends RecipeDatabase{
             HttpResponse response = client.execute(request);
             HttpEntity entity = response.getEntity();
 
-            List<Recipe> res = new ArrayList<Recipe>();
+            ArrayList<Recipe> res = new ArrayList<Recipe>();
             BufferedReader reader =
                     new BufferedReader(new InputStreamReader(entity.getContent()), 65728);
             String line = null;

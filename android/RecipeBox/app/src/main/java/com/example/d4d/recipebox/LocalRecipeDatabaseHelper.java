@@ -22,7 +22,8 @@ public class LocalRecipeDatabaseHelper extends SQLiteOpenHelper{
     private static final String make_test_info =
             "INSERT INTO recipes VALUES('toast', 'toast', 1, 1, 1, 'toast', 'toast', 1, NULL);" +
             "INSERT INTO recipes VALUES('cereal', 'cereal', 2, 2, 2, 'cereal', 'cereal', 2, NULL);" +
-            "INSERT INTO recipes VALUES('toasted cereal', 'toasted cereal', 3, 3, 3, 'toasted cereal', 'toasted cereal', 3, NULL);";
+            "INSERT INTO recipes VALUES('toasted cereal', 'toasted cereal', 3, 3, 3, 'toasted cereal', 'toasted cereal', 3, NULL);" +
+            "INSERT INTO recipes VALUES('something', 'something', 4, 4, 4, 'something', 'something', 4, NULL);";
 
     private static final String DELETE_TABLES =
             "DROP TABLE IF EXISTS recipes;";

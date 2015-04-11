@@ -41,9 +41,9 @@ public class LocalRecipeDatabase extends RecipeDatabase {
     }
 
     @Override
-    public List<Recipe> getRecipesStrict(String name, int cuisine, int mealtype, int season) {
+    public ArrayList<Recipe> getRecipesStrict(String name, int cuisine, int mealtype, int season) {
 
-        List<Recipe> recipes = new ArrayList<Recipe>();
+        ArrayList<Recipe> recipes = new ArrayList<Recipe>();
 
         // build the where filter
         String whereclause = "name LIKE '" + name + "'";
@@ -72,8 +72,8 @@ public class LocalRecipeDatabase extends RecipeDatabase {
     }
 
     @Override
-    public List<Recipe> getRecipesLoose(String name, int cuisine, int mealtype, int season) {
-        List<Recipe> recipes = new ArrayList<Recipe>();
+    public ArrayList<Recipe> getRecipesLoose(String name, int cuisine, int mealtype, int season) {
+        ArrayList<Recipe> recipes = new ArrayList<Recipe>();
 
         // build the where filter
         String whereclause = "name LIKE '%" + name + "%'";

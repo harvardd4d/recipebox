@@ -9,6 +9,7 @@ import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -45,12 +46,25 @@ public class MainActivity extends ActionBarActivity {
     public void onTestButtonClick(View view) {
         // do your testy thingy
         Intent launchIntent = new Intent(MainActivity.this, DisplayRecipeListActivity.class);
-        ArrayList<Recipe> arr = new ArrayList<Recipe>();
-        arr.add(new Recipe("toast", "toast", 1, 1, 1, Collections.singletonList("toast"), "toast", 1, null));
-        arr.add(new Recipe("cereal", "cereal", 2, 2, 2, Collections.singletonList("cereal"), "cereal", 2, null));
+        ArrayList<Recipe> arr = new LocalRecipeDatabase(this).getRecipesLoose("", -1, -1, -1);
         launchIntent.putParcelableArrayListExtra(DisplayRecipeListActivity.RECIPELIST_INTENT_KEY, arr);
         startActivity(launchIntent);
+    }
 
+    public void TOOOASTTT(View view) {
+        // do your testy thingy
+        Intent launchIntent = new Intent(MainActivity.this, DisplayRecipeListActivity.class);
+        ArrayList<Recipe> arr = new LocalRecipeDatabase(this).getRecipesLoose("toast", -1, -1, -1);
+        launchIntent.putParcelableArrayListExtra(DisplayRecipeListActivity.RECIPELIST_INTENT_KEY, arr);
+        startActivity(launchIntent);
+    }
+
+    public void TOOOASTTTT(View view) {
+        // do your testy thingy
+        Intent launchIntent = new Intent(MainActivity.this, DisplayRecipeListActivity.class);
+        ArrayList<Recipe> arr = new LocalRecipeDatabase(this).getRecipesStrict("toast", -1, -1, -1);
+        launchIntent.putParcelableArrayListExtra(DisplayRecipeListActivity.RECIPELIST_INTENT_KEY, arr);
+        startActivity(launchIntent);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.d4d.recipebox;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,7 +34,7 @@ public abstract class RecipeDatabase {
      *               packed into one integer. Recipes season will be a superset of the provided season
      * @return list of recipes that satisfy the criteria, empty list if no recipes satisfy. null if something went wrong
      */
-    public abstract List<Recipe> getRecipesLoose(String name, int cuisine, int mealtype, int season);
+    public abstract ArrayList<Recipe> getRecipesLoose(String name, int cuisine, int mealtype, int season);
 
     /**
      * Returns a list of Recipes that satisfy all the following criteria
@@ -50,5 +51,5 @@ public abstract class RecipeDatabase {
      *               packed into one integer. In this case the season must match exactly
      * @return list of recipes that satisfy the criteria, empty list if no recipes satisfy
      */
-    public abstract List<Recipe> getRecipesStrict(String name, int cuisine, int mealtype, int season);
+    public abstract ArrayList<Recipe> getRecipesStrict(String name, int cuisine, int mealtype, int season);
 }
