@@ -87,16 +87,17 @@ public class DisplayRecipeActivityTest extends
     // test that the Views populated with the recipe elements correctly
     public void testRecipeElementsShown() throws Exception {
 
-        // validate the text in the TextViews
-        // TODO: figure out how to test ImageView
-//        assertTrue("Picture is not null", recipepicture.getDrawable() == null);
+        // validate (test) image is set properly
+        recipepicture.setImageResource(R.mipmap.test_cupcake);
+        assertTrue("Picture is null", recipepicture.getDrawable() != null);
 
+        // validate the text in the TextViews
         assertEquals("Name incorrect", "toast", recipename.getText().toString());
         assertEquals("Instructions incorrect", "toast", recipeinstructions.getText().toString());
         assertEquals("Description incorrect", "toast", recipedescription.getText().toString());
 
-        // TODO: figure out how to test ListView (how to do something with adapter?)
-//        assertEquals("Ingredient List incorrect", "toast", recipeingredientlist.getAdapter().toString());
+        // checks the first (visible) item, which should be "toast" is not null
+//        assertTrue("First list(View) is null", recipeingredientlist.getChildAt(recipeingredientlist.getFirstVisiblePosition()) != null);
 
         assertEquals("Cuisine incorrect", "1", recipecuisine.getText().toString());
         assertEquals("Meal Type incorrect", "1", recipemealtype.getText().toString());
