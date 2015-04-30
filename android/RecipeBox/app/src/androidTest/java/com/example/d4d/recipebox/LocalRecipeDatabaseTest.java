@@ -64,10 +64,10 @@ public class LocalRecipeDatabaseTest extends AndroidTestCase {
 
     public void testGetRecipesLoose() {
         assertTrue("getRecipesLoose(cereal) failed",
-                database.getRecipesLoose("cereal", 2, 2, 2).equals(Collections.singletonList(recipe2)));
+                database.getRecipesLoose("cere", 2, 2, 2).equals(Collections.singletonList(recipe2)));
 
         assertTrue("getRecipesLoose(toast) failed",
-                database.getRecipesLoose("toast", 1, 1, 1).equals(Collections.singletonList(recipe1)));
+                database.getRecipesLoose("toa", 1, 1, 1).equals(Collections.singletonList(recipe1)));
 
         List<Recipe> xceralx = new LinkedList<Recipe>();
         xceralx.add(recipe2);
@@ -76,6 +76,8 @@ public class LocalRecipeDatabaseTest extends AndroidTestCase {
         assertTrue("getRecipesLoose(cereal) failed",
                 database.getRecipesLoose("cereal", -1, -1, -1).equals(xceralx));
     }
+
+    // TODO get somebody to write more tests
 
     public void tearDown() throws Exception {
         database.close();

@@ -7,6 +7,7 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
+// The Recipe structure
 type Recipe struct {
 	Id             int    `json:"id"`
 	Name           string `json:"name"`
@@ -16,17 +17,26 @@ type Recipe struct {
 	Season         int    `json:"season"`
 	Ingredientlist string `json:"ingredientlist"`
 	Instructions   string `json:"instructions"`
+	Picture        []byte `json:"picture"`
 }
 
-func (self *Recipe) ToJSON() string {
-	result, _ := json.Marshal(self) // TODO: ERROR
-	return string(result)
+// Turns a Recipe into a JSON string
+func (self *Recipe) ToJSON() (result string) {
+	resultBytes, err := json.Marshal(self)
+	if err != nil {
+		result = "Chosen recipe cannot be formatted into json form"
+	} else {
+		result = string(resultBytes)
+	}
+	return
 }
 
+// Recipe Database struct.  Wraps a sqlx.DB
 type RecipeDatabase struct {
 	DB *sqlx.DB
 }
 
+// Get a Recipe based on its id.
 func (this *RecipeDatabase) GetRecipe(id int) (recipe *Recipe, err error) {
 	row := this.DB.QueryRowx("SELECT * FROM recipes WHERE id=?", id)
 	recipe = new(Recipe)
@@ -34,7 +44,10 @@ func (this *RecipeDatabase) GetRecipe(id int) (recipe *Recipe, err error) {
 	return
 }
 
-func (this *RecipeDatabase) GetRecipesStrict(name string, cuisine, mealtype, season int) (recipes *list.List, err error) {
+// Get a Recipe based on a strict search
+func (this *RecipeDatabase) GetRecipesStrict(name string, cuisine,
+	mealtype, season int) (recipes *list.List, err error) {
+
 	fmt.Printf("Getting %v %v %v %v", name, cuisine, mealtype, season)
 	rows, err := this.DB.Queryx("SELECT * "+
 		"FROM recipes WHERE name LIKE ? AND "+
@@ -44,7 +57,7 @@ func (this *RecipeDatabase) GetRecipesStrict(name string, cuisine, mealtype, sea
 		name, cuisine, mealtype, season)
 
 	if err != nil {
-		panic("1. " + err.Error())
+		fmt.Printf("[WARNING] in GetRecipesStrict: %s", err.Error())
 	}
 
 	recipes = list.New()
@@ -55,13 +68,16 @@ func (this *RecipeDatabase) GetRecipesStrict(name string, cuisine, mealtype, sea
 		if err == nil {
 			recipes.PushBack(recipe)
 		} else {
-			panic("2. " + err.Error()) // TODO
+			fmt.Printf("[WARNING] StructScan: %s", err.Error())
 		}
 	}
 	return
 }
 
-func (this *RecipeDatabase) GetRecipesLoose(name string, cuisine, mealtype, season int) (recipes *list.List, err error) {
+// Get a Recipe based on a loose search.
+func (this *RecipeDatabase) GetRecipesLoose(name string, cuisine,
+	mealtype, season int) (recipes *list.List, err error) {
+
 	recipes, err = this.GetRecipesStrict("%"+name+"%", cuisine, mealtype, season)
 	return
 }

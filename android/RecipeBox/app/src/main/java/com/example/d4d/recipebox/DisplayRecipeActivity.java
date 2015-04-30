@@ -11,7 +11,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-
 public class DisplayRecipeActivity extends ActionBarActivity {
 
     public static final String RECIPE_INTENT_KEY = "recipe";

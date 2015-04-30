@@ -9,7 +9,7 @@ import java.util.List;
  */
 public abstract class RecipeDatabase {
 
-    public static final String LIST_DELIMITER = "KAPPA";
+    public static final String INGREDIENT_LIST_DELIMITER = "KAPPAKAPPAHUEHUEHUEE";
 
     /**
      * This function, given a Recipes ID, returns the Recipe uniquely identified with said ID
@@ -27,9 +27,11 @@ public abstract class RecipeDatabase {
      * season matches Recipe.season (Wildcard season is -1)
      * @param name name we are searching for as substring
      * @param cuisine cuisine we want to match with
-     * @param mealtype mealtype we want to match with
-     * @param season season we want to match with
-     * @return list of recipes that satisfy the criteria, empty list if no recipes satisfy
+     * @param mealtype mealtype we want to match with. This is encoded as multiple choices
+     *                 packed into one integer. Recipes mealtypes will be a superset of the provided mealtype
+     * @param season season we want to match with. This is encoded as multiple choices
+     *               packed into one integer. Recipes season will be a superset of the provided season
+     * @return list of recipes that satisfy the criteria, empty list if no recipes satisfy. null if something went wrong
      */
     public abstract List<Recipe> getRecipesLoose(String name, int cuisine, int mealtype, int season);
 
@@ -42,8 +44,10 @@ public abstract class RecipeDatabase {
      * season matches Recipe.season (Wildcard season is -1)
      * @param name name we are searching for as exact match
      * @param cuisine cuisine we want to match with
-     * @param mealtype mealtype we want to match with
-     * @param season season we want to match with
+     * @param mealtype mealtype we want to match with. This is encoded as multiple choices
+     *                 packed into one integer. In this case the mealtype must match exactly
+     * @param season season we want to match with. This is encoded as multiple choices
+     *               packed into one integer. In this case the season must match exactly
      * @return list of recipes that satisfy the criteria, empty list if no recipes satisfy
      */
     public abstract List<Recipe> getRecipesStrict(String name, int cuisine, int mealtype, int season);

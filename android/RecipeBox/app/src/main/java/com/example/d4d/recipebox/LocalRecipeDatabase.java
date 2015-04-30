@@ -73,7 +73,32 @@ public class LocalRecipeDatabase extends RecipeDatabase {
 
     @Override
     public List<Recipe> getRecipesLoose(String name, int cuisine, int mealtype, int season) {
-        return getRecipesStrict("%"+name+"%", cuisine, mealtype, season);
+        List<Recipe> recipes = new ArrayList<Recipe>();
+
+        // build the where filter
+        String whereclause = "name LIKE '%" + name + "%'";
+        if(cuisine != -1) {
+            whereclause += " AND cuisine=" + cuisine;
+        }
+
+        if(mealtype != -1) {
+            whereclause += " AND mealtype&" + mealtype + "=" + mealtype;
+        }
+
+        if(season != -1) {
+            whereclause += " AND season&" + season + "=" + season;
+        }
+
+        Cursor c = database.query(tablename, null, whereclause, null, null, null, null);
+
+        if(c.moveToFirst()) {
+            while(!c.isAfterLast()) {
+                recipes.add(makeRecipe(c));
+                c.moveToNext();
+            }
+        }
+
+        return recipes;
     }
 
     public void close() {
@@ -98,7 +123,7 @@ public class LocalRecipeDatabase extends RecipeDatabase {
                 c.getInt(c.getColumnIndex("cuisine")),
                 c.getInt(c.getColumnIndex("mealtype")),
                 c.getInt(c.getColumnIndex("season")),
-                Arrays.asList(c.getString(c.getColumnIndex("ingredientlist")).split(LIST_DELIMITER)),
+                Arrays.asList(c.getString(c.getColumnIndex("ingredientlist")).split(INGREDIENT_LIST_DELIMITER)),
                 c.getString(c.getColumnIndex("instructions")),
                 c.getInt(c.getColumnIndex("id")),
                 picture);

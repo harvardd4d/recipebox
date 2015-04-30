@@ -1,5 +1,7 @@
 package com.example.d4d.recipebox;
 
+import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -25,7 +27,7 @@ import java.util.List;
 public class DisplayRecipeListActivity extends ActionBarActivity {
 
     public static final String DEBUG_TAG = "DisplayRecipeList";
-    public static final String RECIPELIST_INTENT_KEY = "";
+    public static final String RECIPELIST_INTENT_KEY = "recipelist";
     private ListView listView;
     private ProgressDialog progress;
     private RecipeListAdapter adapter;
